@@ -1,0 +1,61 @@
+﻿ 
+（一）问题描述
+
+       在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+
+（二）解决思路
+
+       首先选取数组中右上角的数字。如果该数字等于要查找的数字，则查找过程结束；如果该数字大于要查找的数字，则剔除这个数字所在的列；如果该数字小于要查找的数字，则剔除这个数字所在的行。
+
+（三）代码实现
+
+//二维数组中的查找
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution{
+public:
+	bool Find(vector<vector<int>> array, int target)
+	{
+		//初始化数组总大小
+		int rows = array.size();
+		int cols = array[0].size();
+		bool isFind = false;
+
+		if (!array.empty() && rows > 0 && cols >= 0)  //列可以为0 ，表示数组只有一行
+		{
+			//初始化选取的右上角数字坐标
+			int row = 0;
+			int col = cols - 1;
+
+			//选取的数字在数组范围内
+			while (row < rows && col >= 0)
+			{
+				if (array[row][col] == target)
+				{
+					isFind = true;
+					break;
+				}
+				else if (array[row][col] > target)
+				{
+					--col;
+				}
+				else
+				{
+					++row;
+				}
+			}
+		}
+		return isFind;
+	}
+};
+
+int main()
+{
+	vector<vector<int>> array = { { 1, 2, 8, 9 }, { 2, 4, 9, 12 }, { 4, 7, 10, 13 }, {6,8,11,15} };
+	Solution  solution;
+	cout << solution.Find(array,7)<< endl;
+	return 0;
+}
+
